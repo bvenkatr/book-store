@@ -1,1 +1,13 @@
-{"books":{"1":{"name":"The C Programming Language","author":"Dennis Riteche"},"1234":{"name":"Learn Node.JS","author":"Ryan Dhal"}},"author":{"Ryan Dhal":{"profession":"software engineer"}}}
+{
+  "books": {
+    "1234": {
+      "name": "Learn Node.JS",
+      "author": "Ryan Dhal"
+    }
+  },
+  "author": {
+    "Ryan Dhal": {
+      "profession": "software engineer"
+    }
+  }
+}

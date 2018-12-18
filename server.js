@@ -106,7 +106,7 @@ handlers.books.post = (data, callback) => {
             author: payloadData.author
         };
         try {
-            let err = fs.writeFileSync(path.join(__dirname, "./persistent-book-store.json"), JSON.stringify(bookStore));
+            let err = fs.writeFileSync(path.join(__dirname, "./persistent-book-store.json"), JSON.stringify(bookStore, null, 2));
             if (!err) {
                 callback(null, "Successfully added the book to the store");
             } else {
@@ -152,7 +152,7 @@ handlers.books.delete = (data, callback) => {
     }
 
     try {
-        let err = fs.writeFileSync(path.join(__dirname, "./persistent-book-store.json"), JSON.stringify(bookStore));
+        let err = fs.writeFileSync(path.join(__dirname, "./persistent-book-store.json"), JSON.stringify(bookStore, null, 2));
         if (!err) {
             callback(null, "Successfully deleted the book to the store");
             return;
