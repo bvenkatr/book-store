@@ -66,6 +66,7 @@ const unifiedHandler = (req, res) => {
         };
         chosenHandler(data, (err, data) => {
             res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             if (err) {
                 // Need to use the proper status codes
                 res.writeHead(409);
@@ -121,12 +122,13 @@ handlers.books.post = (data, callback) => {
 };
 
 handlers.books.get = (data, callback) => {
+    console.log("getting books");
     let bookStore;
     try {
         bookStore = fs.readFileSync(path.join(__dirname, "./persistent-book-store.json"), 'utf8');
         bookStore = JSON.parse(bookStore);
     } catch (e) {
-        callback(e, null)
+        callback(e, null);
         return;
     }
 
