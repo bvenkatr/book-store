@@ -29,7 +29,7 @@ httpServerPropxy.listen(config.httpPort, () => {
 const unifiedHandler = (req, res) => {
 
     // parse the url
-    let parsedUrl = url.parse(req.url,  true);
+    let parsedUrl = url.parse(req.url, true);
 
     // Get the path
     const path = parsedUrl.pathname;
@@ -48,7 +48,7 @@ const unifiedHandler = (req, res) => {
     let buffer = "";
 
     // Listen for incoming payload and process it
-    req.on('data', function(data) {
+    req.on('data', function (data) {
         buffer += decoder.write(data);
     });
 
@@ -95,7 +95,7 @@ handlers.books.post = (data, callback) => {
         bookStore = fs.readFileSync(path.join(__dirname, "./persistent-book-store.json"), 'utf8');
         bookStore = JSON.parse(bookStore);
     } catch (e) {
-        callback(e,  null)
+        callback(e, null)
     }
 
     //Search the book store if there is already a book with the given isbn number
@@ -120,6 +120,19 @@ handlers.books.post = (data, callback) => {
     }
 };
 
+handlers.books.get = (data, callback) => {
+    let bookStore;
+    try {
+        bookStore = fs.readFileSync(path.join(__dirname, "./persistent-book-store.json"), 'utf8');
+        bookStore = JSON.parse(bookStore);
+    } catch (e) {
+        callback(e, null)
+        return;
+    }
+
+    callback(null, bookStore.books)
+};
+
 handlers.books.delete = (data, callback) => {
 
     let isbn = data.queryStringObject.isbn;
@@ -128,7 +141,7 @@ handlers.books.delete = (data, callback) => {
         bookStore = fs.readFileSync(path.join(__dirname, "./persistent-book-store.json"), 'utf8');
         bookStore = JSON.parse(bookStore);
     } catch (e) {
-        callback(e,  null)
+        callback(e, null)
     }
 
     if (!bookStore.books[isbn]) {
@@ -157,11 +170,12 @@ const router = {};
 router.books = (data, callback) => {
     let books = {
         post: handlers.books.post,
+        get: handlers.books.get,
         delete: handlers.books.delete
     };
-    let acceptableMethods = ['post','get','put','delete'];
-    if(acceptableMethods.indexOf(data.method) > -1){
-        books[data.method](data,callback);
+    let acceptableMethods = ['post', 'get', 'put', 'delete'];
+    if (acceptableMethods.indexOf(data.method) > -1) {
+        books[data.method](data, callback);
     } else {
         callback("looks like there is no endpoint on this http method");
     }
