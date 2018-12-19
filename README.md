@@ -1,7 +1,9 @@
 pull the image from docker hub or build it locally from the book-store directory
 
 docker pull bvenkatr/book-store
-    OR
+
+OR
+
 docker build -t book-store .
 
 docker run -it --name book-store -p 3000:3000 -p 4000:4000 book-store bash -l
